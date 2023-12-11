@@ -625,7 +625,10 @@ fn apply_inverse_transfer_function(
             }
         }
         TransferFunction::Pq => {
-            todo!()
+            let intensity_target = hdr_params.intensity_target;
+            for ch in channels {
+                tf::pq_to_linear(ch, intensity_target);
+            }
         }
         TransferFunction::Dci => {
             let gamma = 2.6;
