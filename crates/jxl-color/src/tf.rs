@@ -433,9 +433,12 @@ pub fn pq_to_linear(samples: &mut [f32], intensity_target: f32) {
     let y_mult = 10000.0 / intensity_target;
 
     for n in samples {
-        let top = f32::max(crate::fastmath::fast_powf_generic(*n, 1.0 / M2) - C1, 0.0);
-        let bottom = C2 - C3 * crate::fastmath::fast_powf_generic(*n, 1.0 / M2) + 1e-6;
-        let result = crate::fastmath::fast_powf_generic(top / bottom, 1.0 / M1);
+        let top = f32::max(
+            n.powf(1.0 / M2) - C1,
+            0.0,
+        );
+        let bottom = C2 - C3 * n.powf(1.0 / M2) + 1e-6;
+        let result = (top / bottom).powf(1.0 / M1);
         *n = result * y_mult;
     }
 }
